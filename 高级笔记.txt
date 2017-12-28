@@ -1,0 +1,156 @@
+组件：
+    1.建立自己vue文件
+    2.在需要的地方使用import导入该组件
+    3.在components中使用
+    4.在html中使用该名字
+
+组件嵌套
+  定义一个自己的子组件
+  父组件中：
+    components:{'child':myFooterChild}
+  使用：
+    <child></child>
+
+定义路由
+  路由管理页面：
+      index.js
+      路由导入vue文件
+        import myFooter from '@/components/myFooter'
+        @ 标识 src路径
+      设置路由：
+        {path: '/a', name:'Home', component: Home}
+  主页面App.vue - html设置：
+    <li><router-link to='/a'> 首页 </router-link></li>
+    <router-view></router-view>
+
+
+路由传值：
+  路由管理页面：
+    index.js
+      {path: '/second:name', component: myHead}
+    子vue页面：
+      <p>hello + {{$route.params.name}}</p>
+    父页面传值：
+      <li><router-link to='/second:lxx'> 第二 </router-link></li>
+
+    方法2：
+      路由配置index页面
+        {path: '/second', name:'myHead',  component: myHead}
+      App.vue页面通过方法去跳转
+        <li @click="jump()"> 第二 </li>
+          this.$router.push({path:'/second',query:{name:123}});
+      子页面接收
+         {{this.$route.query.name}}
+
+    子页面传给父页面
+        子页面定义好方法
+            select (type) {
+              this.$emit('select-type', type)
+            }
+            使用
+            @click="select(2)"
+        父页面监听
+            定义处理数据的方法
+              onSelectType (type) {
+                alert(type)
+              }
+            使用
+            <child1 ref="child1" @select-type="onSelectType"></child1>
+
+
+
+单页面多路由：
+    App.vue界面
+      <li><router-link to='/'> 首页 </router-link></li>
+    路由配置index文件
+      {path: '/', name:'Home', components : {
+              default : Home,
+              left : First,
+              right : Second
+            }
+      }
+
+父组件使用子组件方法：
+    父组件页面：
+      <child1 ref="child1"></child1>
+      加载子组件
+      components:{child1:myFooterChild}
+      调用子组件方法
+      this.$refs.child1.getParentStr(this.mess);
+    子组件只需要定义该方法即可：
+      getParentStr(str){}
+
+
+
+Vue组件中引入bootstrap
+	安装bootstrap
+		npm install bootstrap@3.3.0 --save-dev
+	使用
+		import 'bootstrap/dist/css/bootstrap.min.css'
+
+Vue中导入jquery:
+   安装jquery：
+      npm install jquery@2.1.0 --save
+   配置webpack.base.conf.js
+      var webpack = require("webpack");
+      在module.exports中加入：
+        plugins: [
+          new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+          })
+        ]
+      页面中使用：
+        import 'jquery'
+
+
+设置http代理
+    1.打开 webpack.dev.conf.js
+    2.找到  devServer属性
+    3.在里面添加代理
+       proxy: {
+        '/': {
+          target: 'http://192.4.7.247:9000/',
+          changeOrigin: true,
+          secure: false
+        }
+      }
+     4.使用的时候
+        以前的地址：http://192.4.7.247:9000/selectAllUser
+        现在要使用的地址：/selectAllUser
+
+vue-axios
+    1.安装  npm install axios --save
+    2.用法
+      main.js / router/index.js
+        import axios from 'axios'
+        Vue.prototype.$ajax = axios
+    3.发起请求
+      在使用的vue组件里面在导入一次
+      import axios from 'axios'
+      post请求:
+          var params = new URLSearchParams();
+          params.append("name", this.newUser.name);
+          params.append("password", 'value');
+          params.append("phone", 'value');
+          params.append("email", 'value');
+          axios.post("/insertUser", params).then(function (response) {
+            console.log(response);
+          }).catch(function (error) {
+            console.log(error);
+          });
+      get请求:
+          axios.get(url, {
+          　　params: { 'key': 'value' }
+          }).then(function (response) {
+          　　console.log(response);
+          }).catch(function (error) {
+          　　console.log(error);
+          });
+
+
+
+
+
+
+
