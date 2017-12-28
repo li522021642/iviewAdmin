@@ -194,7 +194,7 @@
                 params.append("age", this.upUser.age);
                 params.append("sex", this.upUser.sex);
                 params.append("address", this.upUser.address);
-                axios.post("http://192.4.7.247:3000/updateUser", params).then((response) => {
+                axios.post("http://127.0.0.1:3000/updateUser", params).then((response) => {
                     this.getUserByLimit(this.page)
                 }).catch(function (error) {
                     console.log(error);
@@ -207,7 +207,7 @@
                 params.append("password", this.newUser.password);
                 params.append("phone", this.newUser.phone);
                 params.append("email", this.newUser.email);
-                axios.post("http://192.4.7.247:3000/insertUser", params).then((response) => {
+                axios.post("http://127.0.0.1:3000/insertUser", params).then((response) => {
                     console.log(response);
                     this.$Message.info('用户添加成功');
                     this.getUserByLimit(this.page)
@@ -222,7 +222,7 @@
             getUserByLimit(current){
                 //更改页码
                 this.page = current;
-                axios.get("http://192.4.7.247:3000/getUserLimit", {
+                axios.get("http://127.0.0.1:3000/getUserLimit", {
                     params: { 'page': current }
                 }).then( (response) => {
                     this.data6 = response.data[2].result

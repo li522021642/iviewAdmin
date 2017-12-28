@@ -10,7 +10,7 @@ util.title = function(title) {
 };
 
 const ajaxUrl = env === 'development' ?
-    'http://192.4.7.247:3000/' ://修改成自己的node的接口
+    'http://127.0.0.1:3000/' ://修改成自己的node的接口
     env === 'production' ?
     'https://www.url.com' :
     'https://debug.url.com';
